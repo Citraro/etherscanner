@@ -7,7 +7,7 @@ class App extends Component {
 
   async componentWillMount() {
     // Load Web3
-    let web3 = new Web3('https://mainnet.infura.io/v3/953247d0c42b419aa3416810d625cc8c')
+    let web3 = new Web3('https://mainnet.infura.io/v3/159f60290cfb48ea831050ad977220e5')
 
     // Fetch latest block
     let latestBlock = await web3.eth.getBlock('latest')
@@ -19,6 +19,7 @@ class App extends Component {
 
     // Fetch Gas price
     let gasPrice = await web3.eth.getGasPrice()
+    gasPrice = web3.utils.fromWei(gasPrice, 'gwei')
     console.log('gasPrice', gasPrice)
     this.setState({
       gasPrice: gasPrice
@@ -52,20 +53,12 @@ class App extends Component {
     return (
       <div>
         <nav className="navbar navbar-dark fixed-top bg-dark flex-md-nowrap p-0 shadow">
-          <a
-            className="navbar-brand col-sm-3 col-md-2 mr-0"
-            href="http://www.dappuniversity.com/bootcamp"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Dapp University
-          </a>
         </nav>
         <div className="container-fluid mt-5">
           <div className="row">
             <main role="main" className="col-lg-12 d-flex text-center">
               <div className="content mr-auto ml-auto" style={{ width: '800px' }}>
-                <h5>Ethereum Blockchain Explorer</h5>
+                <h5>Lastest Blocks Displayer</h5>
                 <div className="row">
                   <div className="col-4">
                     <div className="bg-light pt-4 pb-3 m-1">
@@ -82,7 +75,7 @@ class App extends Component {
                   <div className="col-4">
                     <div className="bg-light pt-4 pb-3 m-1">
                       <h5>Gas Price</h5>
-                      <p>{this.state.gasPrice}</p>
+                      <p>{this.state.gasPrice} Gwei</p>
                     </div>
                   </div>
 
@@ -94,6 +87,7 @@ class App extends Component {
                     <div className="card">
                       <div className="card-header">
                         <h5>Latest Blocks</h5>
+                        <button type="refreshButton" class="btn btn-sm btn-primary" onClick={refreshScreen}>Refresh</button>
                       </div>
                       <div className="card-body">
                         <table className="table">
@@ -131,6 +125,10 @@ class App extends Component {
       </div>
     );
   }
+}
+
+const refreshScreen = ()=> {
+  window.location.reload();
 }
 
 export default App;
